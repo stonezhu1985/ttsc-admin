@@ -1,0 +1,42 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{ 
+	font-size: 1em;
+}
+h2 {
+	color: red;
+	text-align: center;
+}
+
+ul li {
+	list-style: none;
+	padding: 10px 0;
+	color: blue;
+	font-weight : bolder;
+	border-bottom: dashed 1px rgb(200,200,200);
+
+}
+
+ul li ul li {
+	list-style-type: circle;
+	text-indent: 2em;
+	font-weight : normal;
+	padding: 5px;
+}
+
+#mainDiv {
+	width: 800px;
+	padding: 20px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.greetingText {
+	padding : 20px 0;
+	text-indent : 2em;
+	line-height: 30px;
+	color: blue;
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ttsc.data.dao.NoticeInfoDao">
+	
+	<insert id="saveNotice" parameterType="NoticeInfo">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		 insert into
+		 notice(title,content,notice_type,notice_time) 
+		 values(#{title},#{content},#{type},#{noticeTime})
+	</insert>
+	
+	<update id="updateNotice" parameterType="NoticeInfo">
+		 update 
+		 	notice set title=#{title},content=#{content},notice_type=#{type},notice_time=#{noticeTime}
+		 where
+		 	id = #{id}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="int">
+		 delete from 
+		 	notice 
+		 where
+		 	id = #{id}
+	</delete>
+    
+    <select id="getNoticeById" parameterType="int"  resultType="NoticeInfo">
+        select 
+        	id,title,content,notice_type type,date_format(notice_time,'%Y-%m-%d %H:%i:%s') noticeTime
+ 		from  
+ 			notice 
+        where 
+        	id = #{id}
+    </select>
+    
+    <select id="queryList" parameterType="NoticeQueryPo" resultType="NoticeInfo">
+        select 
+        	id,title,content,notice_type type,date_format(notice_time,'%Y-%m-%d %H:%i:%s') noticeTime
+ 		from  
+ 			notice 
+        where 1=1
+        <if test="title != null">
+			and title like CONCAT('%',#{title},'%')
+		</if>
+		<if test="type != null">
+			and notice_type = #{type}
+		</if>
+		
+		<if test="startTime != null">
+		<![CDATA[
+			and notice_time >= #{startTime}
+		]]>
+		</if>
+		<if test="endTime != null">
+		<![CDATA[
+			and notice_time <= #{endTime}
+		]]>
+		</if>
+        order by id desc
+    </select>
+    
+</mapper>

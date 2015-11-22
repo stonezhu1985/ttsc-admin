@@ -1,0 +1,200 @@
+BODY
+{
+   	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	BACKGROUND-COLOR: "#FFFFFF"
+}
+.top {
+	font-family: "宋体";
+	font-size: 10pt;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.css6 {
+	font-family: "宋体";
+	font-size: 9pt;
+	line-height: 12pt;
+	font-weight: bold;
+	color: 666666;
+	text-decoration: none;
+}
+A:link {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #bb781e; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #bb781e; TEXT-DECORATION: none
+}
+
+select
+{
+	font-size:12px;
+	border:1px solid black;
+	margin:-1px;
+
+
+}
+textarea {
+	font-family: "宋体";
+	font-size: 9pt;
+	line-height: normal;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+}
+input
+{
+    border:1px solid black;
+    font-size:12px;
+    
+}
+
+input.seledit
+{
+	cursor:hand;
+    FONT-SIZE: 12px;
+    border:1px solid blue;
+    background:lightskyblue; 
+}
+
+button {
+	font-family: "宋体";
+	font-size:9pt;
+	color: #000000;
+	border:1px solid black;
+	text-decoration: none;
+	background-color: #E8E8E8;
+}
+
+table.normal
+{
+	font-family: "宋体";
+	font-size: 9pt;
+	line-height: normal;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+	
+}
+.normal th
+{
+	font-family: "宋体";
+	font-size: 9pt;
+	line-height: 12pt;
+	color: 666666;
+	text-decoration: none;
+}
+.normal td
+{
+	font-family: "宋体";
+	font-size: 9pt;
+	line-height: 12pt;
+	color: 000000;
+	text-decoration: none;
+}
+table.top
+{
+	font-family: "宋体";
+	font-size: 9pt;
+	line-height: normal;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+	background-color:999999;
+}
+.top:link
+{
+	COLOR: #FFFFFF; TEXT-DECORATION: none
+}
+.top:hover 
+{
+	FONT-WEIGHT: bold; FONT-SIZE:12px; COLOR: #015ed7; TEXT-DECORATION: underline
+}
+.top:visited 
+{
+	COLOR: #FFFFFF; TEXT-DECORATION: none
+}
+
+.table.list
+{
+	font-family: "宋体";
+	font-size: 9pt;
+	line-height: normal;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+	background-color:999999;
+}
+.list th
+{
+	background-color:EEEEEE;
+	font-family: "宋体";
+	font-size: 9pt;
+	TEXT-ALIGN:center;
+	line-height: 22px;
+	font-weight: normal;
+	color: 6666666;
+	text-decoration: none;
+}
+
+.list input
+{
+	border:1px solid black;
+	font-size:12px;
+}
+
+
+.list td
+{
+	background-color:FFFFFF;
+	font-size: 9pt;
+	line-height: 22px;
+}
+
+.table.edit
+{
+	font-family: "宋体";
+	font-size: 9pt;
+
+	color: #000000;
+	text-decoration: none;
+	background-color:999999;
+}
+.edit th
+{
+	background-color:EEEEEE;
+	font-family: "宋体";
+	font-size: 9pt;
+	TEXT-ALIGN:right;
+	line-height: 22px;
+	font-weight: normal;
+	color: 6666666;
+	text-decoration: none;
+}
+
+.edit input
+{
+	border:1px solid black;
+	font-size:12px;
+}
+
+
+input.ediet
+{
+	border-width:"0";
+	border-bottom:"1 SOLID #808080";
+}
+.edit td
+{
+	background-color:FFFFFF;
+	font-size: 9pt;
+	line-height: 22px;
+}

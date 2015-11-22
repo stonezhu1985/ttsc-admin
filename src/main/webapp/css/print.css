@@ -1,0 +1,24 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	
+}
+table { width:98%; border-collapse:collapse; margin:10px 0;}
+table tr{page-break-inside:auto; marks:cross; orphans:10;}
+table td {font-size:12px; padding:2px; }
+table tdd {font-size:16px; padding:3px; }
+table td input {  background-color:#CCCCCC;}
+A:link {
+	COLOR: #1372bf; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #336699; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #139022; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #bb781e; TEXT-DECORATION: none
+}

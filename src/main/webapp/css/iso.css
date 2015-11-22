@@ -1,0 +1,122 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{ 
+	font-size: 1em;
+}
+
+#topDiv {
+	padding: 10px;
+}
+
+#createdoms {
+	padding: 10px;
+	border: solid 1px #ccc;
+}
+table {
+	width: 100%;
+}
+th {
+	text-align: left;
+	padding : 4px;
+	color: #008580;
+	background-color: rgb(230,230,230);
+	border-top: solid #ccc 1px;
+	border-bottom: solid #ccc 1px;
+}
+td { 
+	vertical-align: top;
+	padding : 2px;
+	line-height: 25px;
+	border-bottom: dotted #ccc 1px;
+
+}
+hr {
+	border: dotted 1px #ccc;
+	margin: 0;
+}
+a:link,a:visited{
+	display: block;
+	float: left;
+	margin-right: 5px;
+	color: blue;
+	text-decoration: none;
+}
+a:hover,a:active{
+	color: red;
+	text-decoration: underline;
+}
+.title01{
+	padding: 5px;
+	background-color:rgb(230,230,230);
+	border-bottom: solid 1px #ccc;
+	color: gray;
+	font-size: 12px;
+}
+.innerDiv1{
+	margin: 5px;
+	padding: 10px;
+	border: solid 1px rgb(230,230,230);
+}
+
+.input01{
+	margin: 10px 10px 0 0;
+}
+
+.outerDiv {
+	padding: 10px;
+}
+.lineH {
+	line-height: 35px;
+}
+.tr01 {
+	
+}
+.tr01 td{
+}
+.tr01 span {
+	height: 25px;
+	float:left;
+	text-decoration:none;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	overflow: hidden;
+}
+.tr02{
+	background-color: #fff;
+}
+.tr02 td{
+	border-top: gray solid 1px;
+	border-bottom: #ccc solid 1px;
+	background-color: #fff;
+}
+.tr03 {
+	background-color: rgb(220,220,220);
+}
+.gray {
+	background-color: rgb(240,240,240);
+}
+
+.topm { width:32%; display:block; float:left; padding: 5px 0 10px 5px; margin-right:10px; margin-bottom:10px; border: #ccc solid 1px;}
+
+
+
+
+/*questionnaires*/
+
+#createQuestions{
+	width: 400px;
+	float: left;
+	padding: 10px;
+	padding: 5px;
+	border: solid 1px #ccc;
+}
+
+#createQuestionnaires{
+	float: left;
+	width: 790px;
+	padding: 5px;
+	margin-left: 10px;
+	border: solid 1px #ccc;
+}

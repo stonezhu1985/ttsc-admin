@@ -1,0 +1,67 @@
+body {
+    margin:0;
+    padding:0;
+    background-color: #ffffff;
+    font-size:9pt;
+}
+
+.td {
+	FONT-WEIGHT: normal;
+	FONT-SIZE: 9pt;
+	COLOR: #000000;
+	LINE-HEIGHT: 20px;
+	FONT-FAMILY: "ËÎÌו";
+	TEXT-DECORATION: none;
+	text-align:center;
+}
+
+.td1 {
+	FONT-WEIGHT: normal;
+	FONT-SIZE: 9pt;
+	COLOR: #000000;
+	LINE-HEIGHT: 20px;
+	FONT-FAMILY: "ËÎÌו";
+	TEXT-DECORATION: none;
+}
+
+.DataTable {
+    width:100%;
+    border-collapse:collapse;
+    border:1px solid #999999;
+    background-color:white;
+    word-break:break-all;
+}
+
+.DataTable caption {
+    font-size:13pt;
+    font-weight:bold;
+}
+
+.DataTable th,.DataTable td {
+    font-size:9pt;
+    border:1px solid #999999;
+}
+
+.Label {
+    text-align:center;
+    background-color:#EEEEEE;
+    FONT-WEIGHT: normal;
+	FONT-SIZE: 9pt;
+	LINE-HEIGHT: 20px;
+}
+
+.inputNone 
+{ 
+  border-top:0px ; 
+  border-left:0px ; 
+  border-right:0px ;
+  border-bottom:0px ;  
+  text-align:center;
+}
+
+.pro_tr {
+	FONT-WEIGHT: normal;
+	FONT-SIZE: 9pt;
+	background-color:#ffffff;
+	text-align:center;
+}

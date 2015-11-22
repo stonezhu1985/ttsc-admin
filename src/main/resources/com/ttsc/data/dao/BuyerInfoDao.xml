@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ttsc.data.dao.BuyerInfoDao">
+	<select id="findUserBUserId" parameterType="int" resultType="BuyerInfoPo">
+        select 
+			t1.id,
+        	t1.name,
+			t1.telephone,
+        	t1.realName,
+        	t1.qq,
+        	t1.weixin,
+        	t1.sex,
+        	t1.passPostNum,
+        	t1.passPortPhoto,
+        	t1.handPassPortPhoto,
+        	t3.type bankType,
+        	t2.account,
+        	t2.name bankName,
+        	t2.bank_city bankCity,
+        	t2.open_an_account openAccount,
+        	t1.check_message checkMessage,
+        	date_format(t1.create_time,'%Y-%m-%d') createTime,
+        	t1.is_validate status
+ 		from  
+ 			user t1
+		left join 
+			user_bank_info_relation t2 on t1.id = t2.user_id
+		left join 
+			bank_info t3 on t2.bank_info_id = t3.id
+   		where t1.id = #{id}
+    </select>
+	
+    <select id="getUnCheckUserList" parameterType="BuyerInfoQueryPo" resultType="BuyerInfoPo">
+        select 
+			t1.id,
+        	t1.name,
+			t1.telephone,
+        	t1.realName,
+        	t1.qq,
+        	t1.weixin,
+        	t1.sex,
+        	t1.passPostNum,
+        	t1.passPortPhoto,
+        	t1.handPassPortPhoto,
+        	t3.type bankType,
+        	t2.account,
+        	t2.name bankName,
+        	t2.bank_city bankCity,
+        	t2.open_an_account openAccount,
+        	t1.check_message checkMessage,
+        	date_format(t1.create_time,'%Y-%m-%d') createTime,
+        	t1.is_validate status
+ 		from  
+ 			user t1
+		left join 
+			user_bank_info_relation t2 on t1.id = t2.user_id
+		left join 
+			bank_info t3 on t2.bank_info_id = t3.id
+   		where 1=1
+		<if test="status != null">
+			and t1.is_validate = #{status}
+		</if>
+		<if test="id != null">
+			and t1.id = #{id}
+		</if>
+		<if test="telephone != null">
+			and t1.telephone = #{telephone}
+		</if>
+		<if test="realName != null">
+			and t1.realName = #{realName}
+		</if>
+		<if test="passPostNum != null">
+			and t1.passPostNum = #{passPostNum}
+		</if>
+		<if test="startTime != null">
+		<![CDATA[
+			and t1.create_time >= #{startTime}
+		]]>
+		</if>
+		<if test="endTime != null">
+		<![CDATA[
+			and t1.create_time <= #{endTime}
+		]]>
+		</if>
+		
+    	order by t1.id desc
+    </select>
+    
+    <update id="checkUserInfo" parameterType="BuyerInfo">
+		 update 
+		 	user set 
+		 	is_validate=#{isValidate},
+		 	check_message = #{checkMessage},
+		 	check_time = #{checkTime}
+		 where
+		 	id = #{id}
+	</update>
+	
+	<update id="updateHuabeiInfo" parameterType="int">
+		 update 
+		 	user set 
+		 	is_huabei=1
+		 where
+		 	id = #{id}
+	</update>
+    
+</mapper>

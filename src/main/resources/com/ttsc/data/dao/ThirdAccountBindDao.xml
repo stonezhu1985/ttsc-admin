@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ttsc.data.dao.ThirdAccountBindDao">
+	<select id="findThirdAccountById" parameterType="int" resultType="ThirdAccountPo">
+        select 
+        	t1.id,
+        	t3.id userId,
+        	t3.realName,
+        	t1.account,
+        	t1.telephone,
+        	t1.address,
+        	t5.level_name levelName,
+        	t4.name partName,
+        	t1.reputation_photo reputationPhoto,
+        	t1.real_name_photo realNamePhoto,
+        	t1.flowers_photo flowersPhoto,
+        	t1.consignee_person consigneePerson,
+        	t6.cityName,
+        	t1.check_message checkMessage,
+        	date_format(t1.create_time,'%Y-%m-%d') createTime,
+        	t1.isExamine status
+		from third_account_info t1
+		left join user_third_account_info_relation t2 on t1.id = t2.third_account_info_id
+		left join user t3 on t2.user_id = t3.id
+		left join third_part t4 on t4.id = t1.third_part_id
+		left join third_level_info t5 on t1.third_level_info_id= t5.id and t5.third_account_type = t4.id
+		left join fch_city t6 on t6.serialid = t1.city
+   		where 
+   			t1.id = #{id}
+    </select>
+	
+    <select id="getUnCheckThirdAccountList" parameterType="ThirdAccountQueryPo" resultType="ThirdAccountPo">
+        select 
+        	t1.id,
+        	t3.id userId,
+        	t3.realName,
+        	t1.account,
+        	t1.telephone,
+        	t1.address,
+        	t5.level_name levelName,
+        	t4.name partName,
+        	t1.reputation_photo reputationPhoto,
+        	t1.real_name_photo realNamePhoto,
+        	t1.flowers_photo flowersPhoto,
+        	t1.consignee_person consigneePerson,
+        	t6.cityName,
+        	t1.check_message checkMessage,
+        	date_format(t1.create_time,'%Y-%m-%d') createTime,
+        	t1.isExamine status
+		from third_account_info t1
+		left join user_third_account_info_relation t2 on t1.id = t2.third_account_info_id
+		left join user t3 on t2.user_id = t3.id
+		left join third_part t4 on t4.id = t1.third_part_id
+		left join third_level_info t5 on t1.third_level_info_id= t5.id and t5.third_account_type = t4.id
+		left join fch_city t6 on t6.serialid = t1.city
+   		where 1=1
+		<if test="status != null">
+			and t1.isExamine= #{status}
+		</if>
+		<if test="userId != null">
+			and t2.user_id = #{userId}
+		</if>
+		<if test="telephone != null">
+			and t1.telephone = #{telephone}
+		</if>
+		<if test="realName != null">
+			and t3.realName = #{realName}
+		</if>
+		<if test="platId != null">
+			and t1.third_part_id = #{platId}
+		</if>
+		<if test="startTime != null">
+		<![CDATA[
+			and t1.create_time >= #{startTime}
+		]]>
+		</if>
+		<if test="endTime != null">
+		<![CDATA[
+			and t1.create_time <= #{endTime}
+		]]>
+		</if>
+		
+    	order by t1.id desc
+    </select>
+    
+    <update id="checkThirdAccountInfo" parameterType="ThirdAccountInfo">
+		 update 
+		 	third_account_info set 
+		 	isExamine=#{isExamine},
+		 	check_message = #{checkMessage},
+		 	check_time = #{checkTime}
+		 where
+		 	id = #{id}
+	</update>
+    
+</mapper>
