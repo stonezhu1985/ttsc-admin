@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ttsc.data.entity.NoticeInfo;
 import com.ttsc.data.po.NoticeQueryPo;
+import com.ttsc.data.po.PagePo;
 import com.ttsc.data.result.BasicResult;
 import com.ttsc.data.service.NoticeInfoService;
 import com.ttsc.data.util.Constant;
@@ -169,9 +170,9 @@ public class NoticeController extends BaseController {
 	
 	@RequestMapping(value = "queryList", method = {RequestMethod.POST })
 	@ResponseBody
-	public BasicResult<List<NoticeInfo>> queryList(HttpServletRequest request,
+	public BasicResult<PagePo<NoticeInfo>> queryList(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		BasicResult<List<NoticeInfo>> rs = new BasicResult<List<NoticeInfo>>();
+		BasicResult<PagePo<NoticeInfo>> rs = new BasicResult<PagePo<NoticeInfo>>();
 		try {
 			if (request.getSession().getAttribute(Constant.USER_LOGIN_INFO) == null) {
 				rs.setMessage("请重新登录!");
@@ -183,16 +184,34 @@ public class NoticeController extends BaseController {
 			String startDate = request.getParameter("startDate");
 			String endDate = request.getParameter("endDate");
 			
+			String pageNumber = request.getParameter("pageNumber");
+			String pageSize = request.getParameter("pageSize");
+			System.out.println("pageNumber="+pageNumber+",pageSize="+pageSize);
+			
 			if(StringUtils.isEmpty(type)){
 				type = null;
 			}
+			
+			int start = 0;
+			if(Integer.parseInt(pageNumber) <= 1){
+				start =  0;
+	        }else{
+	        	start = (Integer.parseInt(pageNumber)-1) * Integer.parseInt(pageSize);
+	        }
+			
 			NoticeQueryPo po = new NoticeQueryPo();
 			po.setTitle(title);
 			po.setType(type);
 			po.setStartTime(startDate+" 00:00:00");
 			po.setEndTime(endDate+" 23:59:59");
+			po.setStart(start);
+			po.setPageSize(Integer.parseInt(pageSize));
 			List<NoticeInfo>  list= noticeInfoService.queryList(po);
-			rs.setSingleResult(list);
+			int total = noticeInfoService.queryListTotal(po);
+			PagePo<NoticeInfo> pagePo = new PagePo<NoticeInfo>();
+			pagePo.setTotal(total);
+			pagePo.setList(list);
+			rs.setSingleResult(pagePo);
 		} catch (Exception e) {
 			logger.info("系统异常，公告查询失败!" + e.getMessage());
 			e.printStackTrace();

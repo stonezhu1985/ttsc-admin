@@ -31,15 +31,26 @@ String now = df.format(Calendar.getInstance().getTime());
     		var title = document.getElementById('title');
     		var startDate = document.getElementById('startDate');
     		var endDate = document.getElementById('endDate');
-    		
+    		var type = document.getElementById('type').value;
+    		var opts = $('#dg').datagrid('options');
+    		var data = {'total': 0, 'rows': []};
     		$.ajax({
 	                type: "POST",
 	                url: vir+'/notice/queryList?num=' + Math.random(),
 	                dataType: "json",
-	                data: {'title': title.value,'startDate': startDate.value,'endDate': endDate.value},
-	                success: function (data) {
-	                	if(data.code == "0"){
-	                		$('#dg').datagrid('loadData', data.singleResult);	
+	                data: {'title': title.value,'startDate': startDate.value,'endDate': endDate.value,'type':type,pageNumber:opts.pageNumber,pageSize:opts.pageSize},
+	                success: function (result) {
+	                	if(result.code == "0"){
+	                		result = result.singleResult;
+                            if (result) {
+                                data = {'total': result.total, 'rows': result.list};
+                            }
+	                		$('#dg').datagrid('loadData', data);
+	                		$('#dg').datagrid("getPager").pagination('refresh', {
+                                pageNumber: opts.pageNumber,
+                                pageSize: opts.pageSize,
+                                total: data.total
+                            });	
 	                    }else{
 	                    	alert(data.message);
 	                    }
@@ -50,41 +61,9 @@ String now = df.format(Calendar.getInstance().getTime());
 	            });
     	}
 		
-		function pagerFilter(data){
-			if (typeof data.length == 'number' && typeof data.splice == 'function'){	
-				data = {
-					total: data.length,
-					rows: data
-				}
-			}
-			var dg = $(this);
-			var opts = dg.datagrid('options');
-			var pager = dg.datagrid('getPager');
-			pager.pagination({
-				beforePageText: '第',//页数文本框前显示的汉字
-                afterPageText: '页    共 {pages} 页',
-                displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',
-				onSelectPage:function(pageNum, pageSize){
-					opts.pageNumber = pageNum;
-					opts.pageSize = pageSize;
-					pager.pagination('refresh',{
-						pageNumber:pageNum,
-						pageSize:pageSize
-					});
-					dg.datagrid('loadData',data);
-				}
-			});
-			if (!data.originalRows){
-				data.originalRows = (data.rows);
-			}
-			var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
-			var end = start + parseInt(opts.pageSize);
-			data.rows = (data.originalRows.slice(start, end));
-			return data;
-		}
 		
 		$(function(){
-			$('#dg').datagrid({loadFilter:pagerFilter}).datagrid({
+			$('#dg').datagrid({
 					width:'100%',
 					height: $(window).height() - 102,
                     singleSelect: true,
@@ -94,7 +73,19 @@ String now = df.format(Calendar.getInstance().getTime());
                             field: 'id', width: '6%', title: '公告ID', align: "center"
                         },
                         {
-                            field: 'title', width: '81%', title: '公告标题', align: "center"
+                            field: 'title', width: '69%', title: '公告标题', align: "center"
+                        },
+                        {
+                            field: 'type', width: '12%', title: '发布平台', align: "center",
+                             formatter: function (value, row, index) {
+                             	var type = "";
+                             	if(value == '0'){
+                             		type = "PC(商家)";
+                             	}else if(value == '1'){
+                             		type = "APP(买手)";
+                             	}
+                                return type;
+                            }
                         },
                         {
                             field: 'noticeTime', width: '12%', title: '发布日期', align: "center"
@@ -125,9 +116,20 @@ String now = df.format(Calendar.getInstance().getTime());
                     	$('#dlg').dialog('open');
 					}
                 }).datagrid('getPager').pagination({
-				beforePageText: '第',//页数文本框前显示的汉字
-                afterPageText: '页    共 {pages} 页',
-                displayMsg: '当前显示 {from} - {to} 条记录   共 0 条记录'});
+					beforePageText: '第',//页数文本框前显示的汉字
+	                afterPageText: '页    共 {pages} 页',
+	                displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',
+					onSelectPage:function(pageNum, pageSize){
+						if (pageNumber <= 0) {
+                            pageNumber = 1;
+                        }
+						var opts = $('#dg').datagrid('options');
+						opts.pageNumber = pageNum;
+						opts.pageSize = pageSize;
+						
+						queryData();
+					}
+				});
                 
                 
 			 $('#dlg').dialog({
@@ -177,6 +179,7 @@ String now = df.format(Calendar.getInstance().getTime());
 				var title = document.getElementById('notice_title').value;
 				var content = FCKeditorAPI.GetInstance("content").GetXHTML("true");
 				var noticeTime = document.getElementById('notice_time').value;
+				var type = document.getElementById('notice_type').value;
 				
 				if(title == ""){
 					alert("请输入公告标题!");
@@ -193,7 +196,7 @@ String now = df.format(Calendar.getInstance().getTime());
 		                type: "POST",
 		                url: vir+ '/notice/update?num=' + Math.random(),
 		                dataType: "json",
-		                data: {'id':curId,'title': title,'content': content,'noticeTime': noticeTime},
+		                data: {'id':curId,'title': title,'content': content,'noticeTime': noticeTime,'type':type},
 		                success: function (data) {
 		                	if(data.code == "0"){
 		                		$('#dlg').dialog('close');
@@ -217,7 +220,7 @@ String now = df.format(Calendar.getInstance().getTime());
 		                type: "POST",
 		                url: vir+ '/notice/save?num=' + Math.random(),
 		                dataType: "json",
-		                data: {'title': title,'content': content,'noticeTime': noticeTime},
+		                data: {'title': title,'content': content,'noticeTime': noticeTime,'type':type},
 		                success: function (data) {
 		                	if(data.code == "0"){
 		                		$('#dlg').dialog('close');
@@ -252,6 +255,7 @@ String now = df.format(Calendar.getInstance().getTime());
 	                    	curId = rowData.id;
 	                    	$('#notice_time').val(rowData.noticeTime);
 	                    	$('#notice_title').val(rowData.title);
+	                    	$('#notice_type').val(rowData.type);
 							var oEditor =FCKeditorAPI.GetInstance("content");   
 						    if(oEditor.EditorDocument!=null){      
 						        oEditor.EditorDocument.body.innerHTML = rowData.content;   
@@ -304,6 +308,14 @@ String now = df.format(Calendar.getInstance().getTime());
 						<tr>
 							<td class="Label" style="width:150px">公告标题</td>
 							<td><input type="text" id="title" name="title" style="width:250px" value=""></td>
+							<td class="Label" style="width:150px">发布平台</td>
+							<td>
+								<select id="type" name="type" style="width:150px">
+									<option value="">请选择</option>
+									<option value="0">PC(商家)</option>
+									<option value="1">APP(买手)</option>
+								</select>
+							</td>
 							<td class="Label" style="width:150px">开始日期</td>
 							<td>
 								<input type="text" name="startDate" id="startDate"
@@ -321,7 +333,7 @@ String now = df.format(Calendar.getInstance().getTime());
 						</tr>
 						
 						<tr>
-							<td colspan="6" align="center" height="40px">
+							<td colspan="8" align="center" height="40px">
 								<img src="<%=path%>/images/query.jpg" alt="查询" style="cursor:pointer" border="0" onClick="queryData()">&nbsp;&nbsp;
 								<img src="<%=path%>/images/add.jpg" alt="创建" style="cursor:pointer" border="0" onClick="createNotice()">&nbsp;&nbsp;
 								<img src="<%=path%>/images/delete.jpg" alt="删除" style="cursor:pointer" border="0" onClick="deleteNotice()">
@@ -335,7 +347,13 @@ String now = df.format(Calendar.getInstance().getTime());
     	</div>
     	<div id="dlg" style="overflow: hidden;padding-top:5px">
         	<table width="100%" border="0">
-				
+				<tr>
+					<td style="font-size:9pt;" align="left">发布平台:<select id="notice_type" name="notice_type" style="width:150px">
+							<option value="0">PC(商家)</option>
+							<option value="1">APP(买手)</option>
+						</select>
+					</td>
+				</tr>
         		<tr>
         			<td style="font-size:9pt;" align="left">发布时间:<input type="text" name="notice_time" id="notice_time"
 										value="<%=now%>" class="Wdate" readonly
@@ -349,7 +367,7 @@ String now = df.format(Calendar.getInstance().getTime());
         			<td style="font-size:9pt;" align="left" valign="top">公告内容:<textarea id="content" name="content"></textarea></td>
         		</tr>        		
         		<tr style="height:35px">
-        			<td colspan="6" style="font-size:9pt;" align="center">
+        			<td style="font-size:9pt;" align="center">
         				<div id="buttonDiv">
 						<input type="button" value=" 保 存 " style="cursor:pointer" onClick="save()" >&nbsp;&nbsp;
 						<input type="button" value=" 取 消 " style="cursor:pointer" onClick="dgClose()" >
@@ -362,7 +380,7 @@ String now = df.format(Calendar.getInstance().getTime());
 				oFCKeditor.BasePath = '<%=Constant.vir%>/js/FCKeditor/' ;
 				oFCKeditor.ToolbarSet = 'Define' ;
 				oFCKeditor.Width = '690px' ;
-				oFCKeditor.Height = '350px' ;
+				oFCKeditor.Height = '330px' ;
 				oFCKeditor.ReplaceTextarea();
 			</script>
     	</div>

@@ -44,4 +44,11 @@ public interface NoticeInfoDao {
 	 * @return
 	 */
 	public List<NoticeInfo> queryList(NoticeQueryPo query);
+	
+	/**
+	 * 查询公告总数
+	 * @param query
+	 * @return
+	 */
+	public int queryListTotal(NoticeQueryPo query);
 }

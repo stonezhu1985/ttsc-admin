@@ -44,5 +44,10 @@ public class NoticeInfoServiceImpl implements NoticeInfoService {
 		// TODO Auto-generated method stub
 		noticeInfoDao.updateNotice(notice);
 	}
+	
+	@Override
+	public int queryListTotal(NoticeQueryPo query){
+		return noticeInfoDao.queryListTotal(query);
+	}
 
 }

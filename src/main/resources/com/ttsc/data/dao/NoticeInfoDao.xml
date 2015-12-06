@@ -59,7 +59,33 @@
 			and notice_time <= #{endTime}
 		]]>
 		</if>
-        order by id desc
+        order by id desc limit #{start},#{pageSize}
+    </select>
+    
+    <select id="queryListTotal" parameterType="NoticeQueryPo" resultType="int">
+        select 
+        	count(1) dataNum
+ 		from  
+ 			notice 
+        where 1=1
+        <if test="title != null">
+			and title like CONCAT('%',#{title},'%')
+		</if>
+		<if test="type != null">
+			and notice_type = #{type}
+		</if>
+		
+		<if test="startTime != null">
+		<![CDATA[
+			and notice_time >= #{startTime}
+		]]>
+		</if>
+		<if test="endTime != null">
+		<![CDATA[
+			and notice_time <= #{endTime}
+		]]>
+		</if>
+        
     </select>
     
 </mapper>
